@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Валентинка</title>
+    <style>
+        /* Основные стили */
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe4e1; /* Светло-розовый */
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Блок с текстом и кнопкой */
+        #message-box {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            position: relative;
+        }
+
+        #message {
+            font-size: 1.5em;
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+
+        #click-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            background-color: #d32f2f;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #click-button:hover {
+            background-color: #b71c1c;
+        }
+
+        /* Финальная анимация */
+        #final-gif {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            gap: 20px;
+        }
+
+        #final-gif img {
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        #final-gif p {
+            font-size: 2em;
+            color: #ff1493; /* Ярко-розовый */
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        /* Падающие сердечки */
+        .heart {
+            position: absolute;
+            top: -50px;
+            animation: fall 5s linear infinite;
+            color: #ff4081;
+            font-size: 30px; /* Увеличенный размер */
+            user-select: none;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Блок с кнопкой и сообщением -->
+    <div id="message-box">
+        <div id="message">Нажми на кнопку, чтобы начать</div>
+        <button id="click-button">Нажми меня</button>
+    </div>
+
+    <!-- Финальный экран с гифкой -->
+    <div id="final-gif">
+        <p>I LOVE U 💓</p>
+        <img src="https://media.giphy.com/media/KmxmoHUGPDjfQXqGgv/giphy.gif" alt="I LOVE U">
+    </div>
+
+    <script>
+        // Последовательность сообщений
+        const messages = [
+            "Нажми кое-что, хочу тебе рассказать",
+            "Нажми еще",
+            "Давай, не сдавайся, нажимай",
+            "Обещаю, это последний раз",
+            "Серьезно",
+            "Ну же",
+            "Хмм",
+            "Ну ладно",
+            "А ведь..",
+            "Я люблю тебя💓",
+        ];
+
+        let index = 0;
+        const messageElement = document.getElementById('message');
+        const buttonElement = document.getElementById('click-button');
+        const messageBox = document.getElementById('message-box');
+        const finalGif = document.getElementById('final-gif');
+
+        buttonElement.addEventListener('click', () => {
+            if (index < messages.length - 1) {
+                messageElement.textContent = messages[index];
+                index++;
+            } else {
+                messageElement.textContent = messages[index];
+                buttonElement.style.display = 'none'; // Скрываем кнопку
+                setTimeout(() => {
+                    messageBox.style.display = 'none'; // Скрываем блок с сообщением
+                    finalGif.style.display = 'flex'; // Показываем гифку и надпись
+                }, 500); // Задержка перед показом гифки
+            }
+        });
+
+        // Функция для создания падающих сердечек
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's'; // Разная скорость падения
+            document.body.appendChild(heart);
+
+            // Удаляем сердечко после завершения анимации
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // Создаем сердечки чаще, чтобы было красивее
+        setInterval(createHeart, 150);
+    </script>
+</body>
+</html>
